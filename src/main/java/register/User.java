@@ -1,9 +1,6 @@
 package register;
 
-import helpers.CreationException;
-import helpers.DataField;
-import helpers.ParamField;
-import helpers.ParamsHandler;
+import helpers.*;
 import helpers.register.Password;
 import org.apache.commons.lang3.StringUtils;
 import spark.Request;
@@ -42,13 +39,13 @@ public class User extends ParamsHandler {
 
     private PasswordUtility passwordUtils = new PasswordUtility();
 
-    public User(Request request) throws CreationException {
+    public User(Request request) throws ShException {
         super(request);
         tryPublish(this);
     }
 
     @Override
-    protected void publish(HashMap<String, Object> paramsMap) throws CreationException {
+    protected void publish(HashMap<String, Object> paramsMap) throws ShException {
         checkUsername((String) paramsMap.get(USERNAME));
         checkPassword((String) paramsMap.get(PASSWORD));
         checkEmail((String) paramsMap.get(EMAIL));
@@ -77,6 +74,7 @@ public class User extends ParamsHandler {
         }
     }
 
+    // TODO: Duplication in passwordchanger
     private Password generatePassword(String password) throws CreationException {
 
         try {

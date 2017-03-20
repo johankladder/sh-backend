@@ -1,6 +1,6 @@
 package register;
 
-import helpers.CreationException;
+import helpers.ShException;
 import spark.Request;
 import spark.Response;
 
@@ -14,8 +14,19 @@ public class RegisterAPI {
         try {
             new User(request);
             response.status(200);
-        } catch (CreationException ex) {
+        } catch (ShException ex) {
             response.status(422);
+        }
+
+        return response;
+    }
+
+    public static Object changePassword(Request request, Response response) {
+        try {
+            new PasswordChanger(request);
+            response.status(200);
+        } catch (ShException ex) {
+            response.status(403);
         }
 
         return response;

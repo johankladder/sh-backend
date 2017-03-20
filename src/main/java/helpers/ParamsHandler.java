@@ -19,7 +19,7 @@ public abstract class ParamsHandler {
         this.request = request;
     }
 
-    private HashMap<String, Boolean> createParamsKeyArray(ParamsHandler handler) throws CreationException {
+    private HashMap<String, Boolean> createParamsKeyArray(ParamsHandler handler) throws ShException {
         HashMap<String, Boolean> paramsKeys = new HashMap<>();
         for (Field field : handler.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ParamField.class)) {
@@ -27,7 +27,7 @@ public abstract class ParamsHandler {
                 try {
                     paramsKeys.put((String) field.get(handler), anotation.required());
                 } catch (IllegalAccessException e) {
-                    throw new CreationException();
+                    throw new ShException();
                 }
             }
         }
@@ -56,7 +56,7 @@ public abstract class ParamsHandler {
         return paramsMap;
     }
 
-    public String createJsonFromParamsField(HashMap<String, Object> paramsMap) throws CreationException {
+    public String createJsonFromParamsField(HashMap<String, Object> paramsMap) throws ShException {
         String dataField = getDataFieldAnotationValue();
         DataFieldJSONBuilder jsonBuilder = new DataFieldJSONBuilder(dataField);
         paramsMap.forEach(jsonBuilder::appendDataField);
@@ -72,7 +72,7 @@ public abstract class ParamsHandler {
         return null;
     }
 
-    private HashMap<String, Object> createParamsMap(ParamsHandler handler) throws CreationException {
+    private HashMap<String, Object> createParamsMap(ParamsHandler handler) throws ShException {
         HashMap<String, Boolean> paramsKeyArray = createParamsKeyArray(handler);
         return constructParamMap(paramsKeyArray);
     }
@@ -85,7 +85,7 @@ public abstract class ParamsHandler {
      * @param handler The handler that needs to be user to perform a publish on.
      * @throws CreationException When given query keys are not given or when the custom validation failed.
      */
-    protected void tryPublish(ParamsHandler handler) throws CreationException {
+    protected void tryPublish(ParamsHandler handler) throws ShException {
         publish(createParamsMap(handler));
     }
 
@@ -96,6 +96,6 @@ public abstract class ParamsHandler {
      * @param paramsMap An HashMap containing query keys with their given value.
      * @throws CreationException When validation fails
      */
-    protected abstract void publish(HashMap<String, Object> paramsMap) throws CreationException;
+    protected abstract void publish(HashMap<String, Object> paramsMap) throws ShException;
 
 }
