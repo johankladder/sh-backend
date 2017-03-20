@@ -1,6 +1,7 @@
 package helpers;
 
 import spark.Request;
+import utils.DataFieldJSONBuilder;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public abstract class ParamsHandler {
         return paramsKeys;
     }
 
-    private HashMap<String, String> constructParamMap(ArrayList<String> keys) throws CreationException {
-        HashMap<String, String> paramsMap = new HashMap<>();
+    private HashMap<String, Object> constructParamMap(ArrayList<String> keys) throws CreationException {
+        HashMap<String, Object> paramsMap = new HashMap<>();
         for (String param : keys) {
             if (request.queryParams().contains(param)) {
                 String value = request.queryParams(param);
@@ -44,6 +45,17 @@ public abstract class ParamsHandler {
         return paramsMap;
     }
 
+    public String createJsonFromParamsField(HashMap<String, Object> paramsMap) throws CreationException {
+        DataFieldJSONBuilder jsonBuilder = new DataFieldJSONBuilder();
+        paramsMap.forEach(jsonBuilder::appendDataField);
+        return jsonBuilder.getJsonString();
+    }
+
+    private HashMap<String, Object> createParamsMap(ParamsHandler handler) throws CreationException {
+        ArrayList<String> paramsKeyArray = createParamsKeyArray(handler);
+        return constructParamMap(paramsKeyArray);
+    }
+
     /**
      * Tries to publish the result of the implemented request of this class. The method will firstly create an array
      * containing all the keys prior to its child-class. After this, it will create an parameter map according to the
@@ -53,9 +65,7 @@ public abstract class ParamsHandler {
      * @throws CreationException When given query keys are not given or when the custom validation failed.
      */
     protected void tryPublish(ParamsHandler handler) throws CreationException {
-        ArrayList<String> paramsKeyArray = createParamsKeyArray(handler);
-        HashMap<String, String> paramMap = constructParamMap(paramsKeyArray);
-        publish(paramMap);
+        publish(createParamsMap(handler));
     }
 
     /**
@@ -65,6 +75,6 @@ public abstract class ParamsHandler {
      * @param paramsMap An HashMap containing query keys with their given value.
      * @throws CreationException When validation fails
      */
-    protected abstract void publish(HashMap<String, String> paramsMap) throws CreationException;
+    protected abstract void publish(HashMap<String, Object> paramsMap) throws CreationException;
 
 }

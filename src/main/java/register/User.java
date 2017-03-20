@@ -32,6 +32,9 @@ public class User extends ParamsHandler {
     @ParamField
     public final static String EMAIL = "email";
 
+    public final static String SALT = "salt";
+
+
     private PasswordUtility passwordUtils = new PasswordUtility();
 
     public User(Request request) throws CreationException {
@@ -40,14 +43,14 @@ public class User extends ParamsHandler {
     }
 
     @Override
-    protected void publish(HashMap<String, String> paramsMap) throws CreationException {
-        checkUsername(paramsMap.get(USERNAME));
-        checkPassword(paramsMap.get(PASSWORD));
-        checkEmail(paramsMap.get(EMAIL));
-
-        Password hashedPassword = generatePassword(paramsMap.get(PASSWORD));
-
-
+    protected void publish(HashMap<String, Object> paramsMap) throws CreationException {
+        checkUsername((String) paramsMap.get(USERNAME));
+        checkPassword((String) paramsMap.get(PASSWORD));
+        checkEmail((String) paramsMap.get(EMAIL));
+        Password hashedPassword = generatePassword((String) paramsMap.get(PASSWORD));
+        paramsMap.put(PASSWORD, hashedPassword.password);
+        paramsMap.put(SALT, hashedPassword.salt);
+        String json = createJsonFromParamsField(paramsMap);
     }
 
     private void checkUsername(String username) throws CreationException {
@@ -68,7 +71,7 @@ public class User extends ParamsHandler {
         }
     }
 
-    private Password generatePassword(String password) {
+    private Password generatePassword(String password) throws CreationException {
 
         try {
             byte[] salt = passwordUtils.generateSalt();
@@ -77,8 +80,7 @@ public class User extends ParamsHandler {
             return new Password(salt, pass);
 
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-            return null;
+            throw new CreationException();
         }
     }
 
