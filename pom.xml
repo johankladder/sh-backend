@@ -33,7 +33,7 @@
                         <!-- This tells Maven to include all dependencies -->
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>sh-backend-development-${version}</finalName>
+                    <finalName>sh-backend-${version}</finalName>
                     <archive>
                         <manifest>
                             <mainClass>RestApi</mainClass>
@@ -75,7 +75,21 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>6.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
 </project>
