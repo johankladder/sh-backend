@@ -1,5 +1,6 @@
 package helpers;
 
+import org.apache.commons.lang3.StringUtils;
 import spark.Request;
 import utils.DataFieldJSONBuilder;
 
@@ -18,12 +19,13 @@ public abstract class ParamsHandler {
         this.request = request;
     }
 
-    private ArrayList<String> createParamsKeyArray(ParamsHandler handler) throws CreationException {
-        ArrayList<String> paramsKeys = new ArrayList<>();
+    private HashMap<String, Boolean> createParamsKeyArray(ParamsHandler handler) throws CreationException {
+        HashMap<String, Boolean> paramsKeys = new HashMap<>();
         for (Field field : handler.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ParamField.class)) {
+                ParamField anotation = field.getAnnotation(ParamField.class);
                 try {
-                    paramsKeys.add((String) field.get(handler));
+                    paramsKeys.put((String) field.get(handler), anotation.required());
                 } catch (IllegalAccessException e) {
                     throw new CreationException();
                 }
@@ -32,16 +34,25 @@ public abstract class ParamsHandler {
         return paramsKeys;
     }
 
-    private HashMap<String, Object> constructParamMap(ArrayList<String> keys) throws CreationException {
+    private HashMap<String, Object> constructParamMap(HashMap<String, Boolean> keys) throws CreationException {
         HashMap<String, Object> paramsMap = new HashMap<>();
-        for (String param : keys) {
-            if (request.queryParams().contains(param)) {
-                String value = request.queryParams(param);
-                paramsMap.put(param, value);
-            } else {
-                throw new CreationException();
+
+        keys.forEach((key, required) -> {
+            String value = null;
+            if(required && !request.queryParams().contains(key)) {
+                try {
+                    throw new CreationException();
+                } catch (CreationException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+            String tempValue = request.queryParams(key);
+
+            if(StringUtils.isNotEmpty(tempValue))
+                value = tempValue;
+            paramsMap.put(key, value);
+        });
+
         return paramsMap;
     }
 
@@ -62,7 +73,7 @@ public abstract class ParamsHandler {
     }
 
     private HashMap<String, Object> createParamsMap(ParamsHandler handler) throws CreationException {
-        ArrayList<String> paramsKeyArray = createParamsKeyArray(handler);
+        HashMap<String, Boolean> paramsKeyArray = createParamsKeyArray(handler);
         return constructParamMap(paramsKeyArray);
     }
 

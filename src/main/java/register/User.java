@@ -22,14 +22,20 @@ public class User extends ParamsHandler {
 
     @DataField(value = "users")
 
-    @ParamField
+    @ParamField(required = true)
     public final static String USERNAME = "username";
 
-    @ParamField
+    @ParamField(required = true)
     public final static String PASSWORD = "password";
 
-    @ParamField
+    @ParamField(required = true)
     public final static String EMAIL = "email";
+
+    @ParamField(required = false)
+    public final static String PLACE = "place";
+
+    @ParamField(required = false)
+    public final static String COUNTRY = "country";
 
     public final static String SALT = "salt";
 

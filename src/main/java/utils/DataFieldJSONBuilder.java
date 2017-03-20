@@ -16,7 +16,11 @@ public class DataFieldJSONBuilder {
     }
 
     public void appendDataField(String key, Object param) {
-        dataObject.put(key, param);
+        if(param != null) {
+            dataObject.put(key, param);
+        } else {
+            dataObject.put(key, JSONObject.NULL);
+        }
     }
 
     public String getJsonString() {
