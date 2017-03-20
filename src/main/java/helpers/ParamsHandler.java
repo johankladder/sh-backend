@@ -46,9 +46,19 @@ public abstract class ParamsHandler {
     }
 
     public String createJsonFromParamsField(HashMap<String, Object> paramsMap) throws CreationException {
-        DataFieldJSONBuilder jsonBuilder = new DataFieldJSONBuilder();
+        String dataField = getDataFieldAnotationValue();
+        DataFieldJSONBuilder jsonBuilder = new DataFieldJSONBuilder(dataField);
         paramsMap.forEach(jsonBuilder::appendDataField);
         return jsonBuilder.getJsonString();
+    }
+
+    private String getDataFieldAnotationValue() {
+        for(Field field : this.getClass().getFields()) {
+            DataField dataField = field.getAnnotation(DataField.class);
+            if(dataField != null)
+                return dataField.value();
+        }
+        return null;
     }
 
     private HashMap<String, Object> createParamsMap(ParamsHandler handler) throws CreationException {

@@ -20,8 +20,7 @@ import java.util.HashMap;
  */
 public class User extends ParamsHandler {
 
-    @DataField
-    public final static String DATAFIELD = "users";
+    @DataField(value = "users")
 
     @ParamField
     public final static String USERNAME = "username";
@@ -51,6 +50,7 @@ public class User extends ParamsHandler {
         paramsMap.put(PASSWORD, hashedPassword.password);
         paramsMap.put(SALT, hashedPassword.salt);
         String json = createJsonFromParamsField(paramsMap);
+        System.out.println(json);
     }
 
     private void checkUsername(String username) throws CreationException {
