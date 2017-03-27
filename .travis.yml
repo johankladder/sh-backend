@@ -1,8 +1,12 @@
 language: java
 jdk:
   - oraclejdk8
-script: "mvn heroku:deploy"
 
-branches:
-  only:
-  - develop
+before_install:
+  - mysql -e 'CREATE DATABASE shbackend_test;'
+
+before_script:
+  - "set -e"
+script:
+  - "mvn test"
+  - 'if [ "$TRAVIS_BRANCH" = "develop" ]; then mvn heroku:deploy fi'

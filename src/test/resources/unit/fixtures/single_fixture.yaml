@@ -1,0 +1,5 @@
+table-name:
+  - fixture:
+      column1: "value1"
+      column2: "value2"
+      column3: "value3"

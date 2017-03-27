@@ -1,3 +1,5 @@
+package functional;
+
 import register.RegisterAPI;
 
 import static spark.Spark.*;

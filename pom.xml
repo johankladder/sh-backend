@@ -36,7 +36,7 @@
                     <finalName>sh-backend-${version}</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>RestApi</mainClass>
+                            <mainClass>functional.RestApi</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -95,7 +95,16 @@
             <artifactId>json</artifactId>
             <version>20160212</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.18</version>
+        </dependency>
     </dependencies>
 
 </project>

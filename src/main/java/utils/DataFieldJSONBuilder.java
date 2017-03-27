@@ -23,9 +23,13 @@ public class DataFieldJSONBuilder {
         }
     }
 
+    // TODO: Hardcoded key
     public String getJsonString() {
         JSONObject root = new JSONObject();
-        root.append(dataField, dataObject);
+        root.put("data", dataObject);
+        JSONObject base = new JSONObject();
+        base.put(dataField, root);
+        System.out.println(base.toString());
         return root.toString();
     }
 }

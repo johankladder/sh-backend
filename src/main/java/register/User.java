@@ -17,7 +17,7 @@ import java.util.HashMap;
  */
 public class User extends ParamsHandler {
 
-    @DataField(value = "users")
+    @DataField(value = "sh_user")
 
     @ParamField(required = true)
     public final static String USERNAME = "username";
@@ -46,14 +46,13 @@ public class User extends ParamsHandler {
 
     @Override
     protected void publish(HashMap<String, Object> paramsMap) throws ShException {
-        checkUsername((String) paramsMap.get(USERNAME));
-        checkPassword((String) paramsMap.get(PASSWORD));
-        checkEmail((String) paramsMap.get(EMAIL));
-        Password hashedPassword = generatePassword((String) paramsMap.get(PASSWORD));
-        paramsMap.put(PASSWORD, hashedPassword.password);
-        paramsMap.put(SALT, hashedPassword.salt);
-        String json = createJsonFromParamsField(paramsMap);
-        System.out.println(json);
+            checkUsername((String) paramsMap.get(USERNAME));
+            checkPassword((String) paramsMap.get(PASSWORD));
+            checkEmail((String) paramsMap.get(EMAIL));
+            Password hashedPassword = generatePassword((String) paramsMap.get(PASSWORD));
+            paramsMap.put(PASSWORD, hashedPassword.password);
+            paramsMap.put(SALT, hashedPassword.salt);
+            String json = createJsonFromParamsField(paramsMap);
     }
 
     private void checkUsername(String username) throws CreationException {
