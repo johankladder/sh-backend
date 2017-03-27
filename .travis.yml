@@ -9,4 +9,4 @@ before_script:
   - "set -e"
 script:
   - "mvn test"
-  - 'if [ "$TRAVIS_BRANCH" = "develop" ]; then mvn heroku:deploy fi'
+  - if [ $TRAVIS_BRANCH = 'develop' ]; then mvn:heroku:deploy; fi

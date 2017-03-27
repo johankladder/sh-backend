@@ -1,6 +1,8 @@
 package register;
 
 import helpers.*;
+import helpers.database.parsers.JsonParser;
+import helpers.database.parsers.SQLParser;
 import helpers.register.Password;
 import org.apache.commons.lang3.StringUtils;
 import spark.Request;
@@ -34,7 +36,11 @@ public class User extends ParamsHandler {
     @ParamField(required = false)
     public final static String COUNTRY = "country";
 
-    public final static String SALT = "salt";
+    final static String SALT = "salt";
+
+    public JsonParser parser = new JsonParser();
+
+
 
 
     private PasswordUtility passwordUtils = new PasswordUtility();
@@ -53,6 +59,10 @@ public class User extends ParamsHandler {
             paramsMap.put(PASSWORD, hashedPassword.password);
             paramsMap.put(SALT, hashedPassword.salt);
             String json = createJsonFromParamsField(paramsMap);
+
+            String mysql = parser.parse(json, SQLParser.TYPE.INSERT);
+            System.out.println(mysql);
+
     }
 
     private void checkUsername(String username) throws CreationException {

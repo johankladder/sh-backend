@@ -29,7 +29,6 @@ public class DataFieldJSONBuilder {
         root.put("data", dataObject);
         JSONObject base = new JSONObject();
         base.put(dataField, root);
-        System.out.println(base.toString());
-        return root.toString();
+        return base.toString();
     }
 }
