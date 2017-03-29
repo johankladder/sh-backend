@@ -1,7 +1,7 @@
 package register;
 
-import helpers.CreationException;
 import helpers.ChangeException;
+import helpers.CreationException;
 import helpers.DataField;
 import helpers.ParamField;
 import helpers.ParamsHandler;
@@ -9,11 +9,13 @@ import helpers.ShException;
 import helpers.database.Database;
 import helpers.register.Password;
 import spark.Request;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+
 import utils.PasswordUtility;
 
 public class PasswordChanger extends ParamsHandler {
@@ -44,9 +46,9 @@ public class PasswordChanger extends ParamsHandler {
         byte[] obtainedPassword = new byte[0];
         try {
             // TODO: hardcoded
-            ResultSet set = (ResultSet) Database.execQuery("select password, salt from " +
-                    "sh_user where email='" + paramsMap.get(EMAIL) + "'", Database.Result.RESULTSET);
-            if(set.next()) {
+            ResultSet set = (ResultSet) Database.execQuery("select password, salt from sh_user "
+                    + "where email='" + paramsMap.get(EMAIL) + "'", Database.Result.RESULTSET);
+            if (set.next()) {
                 obtainedSalt = set.getBytes("salt");
                 obtainedPassword = set.getBytes("password");
             }
