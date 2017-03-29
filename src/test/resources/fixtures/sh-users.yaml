@@ -1,0 +1,8 @@
+sh-users:
+  - user:
+      username: "Johan Kladder"
+      email: "j.kladder@st.hanze.nl"
+      place: "Groningen"
+      country: "Netherlands"
+      password: ""
+      salt: ""
