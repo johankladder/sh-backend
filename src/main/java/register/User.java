@@ -2,8 +2,6 @@ package register;
 
 import helpers.*;
 import helpers.database.Database;
-import helpers.database.parsers.JsonParser;
-import helpers.database.parsers.SQLParser;
 import helpers.register.Password;
 import org.apache.commons.lang3.StringUtils;
 import spark.Request;
@@ -41,8 +39,6 @@ public class User extends ParamsHandler {
     public final static String COUNTRY = "country";
 
     final static String SALT = "salt";
-
-    public static JsonParser parser = new JsonParser();
 
 
     private PasswordUtility passwordUtils = new PasswordUtility();
