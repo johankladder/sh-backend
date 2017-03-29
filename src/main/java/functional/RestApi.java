@@ -1,14 +1,16 @@
 package functional;
 
 import register.RegisterAPI;
+import static spark.Spark.port;
+import static spark.Spark.get;
+import static spark.Spark.post;
 
-import static spark.Spark.*;
-
-/**
- * Created by johankladder on 9-3-17 (18:09)
- */
 public class RestApi {
 
+    /**
+     * Method for starting the rest api.
+     * @param args Arguments for the api, currently unused.
+     */
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
 

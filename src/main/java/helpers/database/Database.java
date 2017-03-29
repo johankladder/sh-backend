@@ -1,7 +1,12 @@
 package helpers.database;
 
 import helpers.ShException;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by johankladder on 12-3-17 (20:47)
@@ -47,8 +52,4 @@ public class Database {
         }
     }
 
-
-    public static void cleanUp() throws SQLException {
-        connection.close();
-    }
 }

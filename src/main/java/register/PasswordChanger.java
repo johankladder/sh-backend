@@ -59,9 +59,8 @@ public class PasswordChanger extends ParamsHandler {
             boolean status = passwordUtils.authenticate((String) paramsMap.get(OLD_PASSWORD),
                     obtainedPassword, obtainedSalt);
             if (status) {
+                // TODO: Store new password
                 Password newPassword = generatePassword((String) paramsMap.get(NEW_PASSWORD));
-                String json = createJsonFromParamsField(createDataMap(newPassword, (String) paramsMap.get(EMAIL)));
-                System.out.println(json);
             } else {
                 throw new ShException();
             }
