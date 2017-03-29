@@ -8,9 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Created by johankladder on 12-3-17 (20:47)
- */
 public class Database {
 
     public static String LOCATION = "localhost";
@@ -25,6 +22,12 @@ public class Database {
         NONE
     }
 
+    /**
+     * Creates an new connection in this database model. After this, the connection
+     * can be used to create statements with.
+     * @throws ClassNotFoundException Class for name not found
+     * @throws SQLException When database credentials are not correct
+     */
     public static void connect() throws ClassNotFoundException, SQLException {
         // This will load the MySQL driver, each DB has its own driver
         Class.forName("com.mysql.jdbc.Driver");
@@ -39,6 +42,15 @@ public class Database {
     }
 
 
+    /**
+     * Execs an hardcoded mysql query wrapped in an String object. The enum is used to either
+     * return the result of the query or to return the status of execution.
+     * @param query The sql query
+     * @param result Enum containing query information
+     * @return Result (boolean or result set)
+     * @throws SQLException When query is not correct.
+     * @throws ShException When given result info is not valid.
+     */
     public static Object execQuery(String query, Result result) throws SQLException, ShException {
         switch (result) {
             case NONE:

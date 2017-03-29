@@ -1,6 +1,6 @@
 package functional;
 
-import register.RegisterAPI;
+import register.RegisterApi;
 
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -17,9 +17,9 @@ public class RestApi {
 
         get("/hello", (req, res) -> "Hello Hoppers!");
 
-        post("/register", RegisterAPI::register);
+        post("/register", RegisterApi::register);
 
-        post("/change-password", RegisterAPI::changePassword);
+        post("/change-password", RegisterApi::changePassword);
     }
 
     private static int getHerokuAssignedPort() {

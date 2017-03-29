@@ -4,11 +4,14 @@ import helpers.ShException;
 import spark.Request;
 import spark.Response;
 
-/**
- * Created by johankladder on 12-3-17 (18:55)
- */
-public class RegisterAPI {
+public class RegisterApi {
 
+    /**
+     * Api method for registering an user.
+     * @param request Request containing post information
+     * @param response Default object
+     * @return status 200 or 403
+     */
     public static Object register(Request request, Response response) {
 
         try {
@@ -21,6 +24,12 @@ public class RegisterAPI {
         return response;
     }
 
+    /**
+     * Api method for changing password of user.
+     * @param request Request containing post information
+     * @param response Default object
+     * @return status 200 or 403
+     */
     public static Object changePassword(Request request, Response response) {
         try {
             new PasswordChanger(request);
