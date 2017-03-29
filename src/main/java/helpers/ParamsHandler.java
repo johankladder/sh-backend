@@ -64,8 +64,7 @@ public abstract class ParamsHandler {
      * given keys. When every thing went well, this method calls the abstract method publish().
      *
      * @param handler The handler that needs to be user to perform a publish on.
-     * @throws CreationException When given query keys are not given or when the custom
-     * validation failed.
+     * @throws CreationException When validation is failing
      */
     protected void tryPublish(ParamsHandler handler) throws ShException {
         publish(createParamsMap(handler));
