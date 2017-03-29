@@ -38,9 +38,9 @@ public class PasswordUtility {
 
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
 
-        SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
 
-        return f.generateSecret(spec).getEncoded();
+        return secretKeyFactory.generateSecret(spec).getEncoded();
     }
 
     public byte[] generateSalt() throws NoSuchAlgorithmException {

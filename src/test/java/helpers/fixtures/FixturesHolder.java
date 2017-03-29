@@ -3,14 +3,9 @@ package helpers.fixtures;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-/**
- * Created by johankladder on 27-3-17 (14:53)
- */
 public class FixturesHolder {
 
     private String tableName = null;
-
-    private Fixture[] fixtures = null;
 
     private LinkedHashMap fixturesMap;
 

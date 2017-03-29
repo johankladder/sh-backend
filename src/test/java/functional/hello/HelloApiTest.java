@@ -1,8 +1,7 @@
 package functional.hello;
 
-import org.junit.Test;
 import helpers.functional.ApiTest;
-import spark.utils.IOUtils;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +9,8 @@ import java.net.HttpURLConnection;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by johankladder on 22-3-17 (19:45)
- */
+import spark.utils.IOUtils;
+
 public class HelloApiTest extends ApiTest {
 
     @Test
