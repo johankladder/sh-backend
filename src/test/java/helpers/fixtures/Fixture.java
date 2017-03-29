@@ -3,9 +3,6 @@ package helpers.fixtures;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-/**
- * Created by johankladder on 27-3-17 (14:49)
- */
 public class Fixture {
 
     private HashMap<String, Object> fixtureData = null;

@@ -3,9 +3,7 @@ package helpers.functional;
 import helpers.database.Database;
 import org.flywaydb.core.Flyway;
 
-/**
- * Created by johankladder on 22-3-17 (18:42)
- */
+
 public class DatabaseTester {
 
     public static String LOCATION = "localhost";
@@ -19,7 +17,8 @@ public class DatabaseTester {
         Flyway flyway = new Flyway();
 
         // Point it to the helpers.unit.database
-        flyway.setDataSource("jdbc:mysql://" + LOCATION + "/" + DATABASE + "?serverTimezone=" + TIMEZONE, USER, PASSWORD);
+        flyway.setDataSource("jdbc:mysql://" + LOCATION + "/" + DATABASE + "?serverTimezone="
+                + TIMEZONE, USER, PASSWORD);
 
         // Clear // TODO: Clears complete database
         flyway.clean();

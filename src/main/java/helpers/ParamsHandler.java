@@ -1,9 +1,9 @@
 package helpers;
 
-import org.apache.commons.lang3.StringUtils;
-import java.util.HashMap;
 import java.lang.reflect.Field;
 import spark.Request;
+import java.util.HashMap;
+import org.apache.commons.lang3.StringUtils;
 
 public abstract class ParamsHandler {
 

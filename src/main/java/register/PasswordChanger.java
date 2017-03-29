@@ -8,13 +8,12 @@ import helpers.ParamsHandler;
 import helpers.ShException;
 import helpers.database.Database;
 import helpers.register.Password;
-import spark.Request;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import spark.Request;
 
 import utils.PasswordUtility;
 

@@ -1,16 +1,19 @@
 package helpers.functional;
 
-import org.junit.BeforeClass;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import org.junit.BeforeClass;
 
-/**
- * Created by johankladder on 22-3-17 (20:57)
- */
 public abstract class ApiDatabaseTester {
 
     private static ApiTest apiTest;
 
+    /**
+     * Setups the Api tester and the database tester
+     * @throws InterruptedException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
     @BeforeClass
     public static void setup() throws InterruptedException, ClassNotFoundException, IOException {
         apiTest = new ApiTest();
@@ -18,12 +21,9 @@ public abstract class ApiDatabaseTester {
         DatabaseTester.setup();
     }
 
-    protected static HttpURLConnection testUrl(String urlTest, String method, String requestBody) throws IOException {
+    protected static HttpURLConnection testUrl(String urlTest, String method, String requestBody)
+            throws IOException {
         return apiTest.testUrl(urlTest, method, requestBody);
-    }
-
-    protected void testDatabase(String query) {
-
     }
 
 }
