@@ -1,8 +1,5 @@
 package helpers.register;
 
-/**
- * Created by johankladder on 20-3-17 (19:34)
- */
 public class Password {
 
     public byte[] salt;

@@ -1,21 +1,21 @@
 package register;
 
-import helpers.*;
-
+import helpers.CreationException;
+import helpers.ChangeException;
+import helpers.DataField;
+import helpers.ParamField;
+import helpers.ParamsHandler;
+import helpers.ShException;
 import helpers.database.Database;
 import helpers.register.Password;
 import spark.Request;
-import utils.PasswordUtility;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import utils.PasswordUtility;
 
-/**
- * Created by johankladder on 20-3-17 (21:07)
- */
 public class PasswordChanger extends ParamsHandler {
 
     @DataField(value = "sh_user")
@@ -44,8 +44,8 @@ public class PasswordChanger extends ParamsHandler {
         byte[] obtainedPassword = new byte[0];
         try {
             // TODO: hardcoded
-            ResultSet set = (ResultSet) Database.execQuery("select password, salt from sh_user where email='"
-                    + paramsMap.get(EMAIL) + "'", Database.Result.RESULTSET);
+            ResultSet set = (ResultSet) Database.execQuery("select password, salt from " +
+                    "sh_user where email='" + paramsMap.get(EMAIL) + "'", Database.Result.RESULTSET);
             if(set.next()) {
                 obtainedSalt = set.getBytes("salt");
                 obtainedPassword = set.getBytes("password");
@@ -68,15 +68,6 @@ public class PasswordChanger extends ParamsHandler {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new ChangeException();
         }
-    }
-
-    private HashMap<String, Object> createDataMap(Password password, String email) {
-        HashMap<String, Object> dataMap = new HashMap<>();
-        dataMap.put(User.PASSWORD, password.password);
-        dataMap.put(User.SALT, password.salt);
-        dataMap.put(EMAIL, email);
-
-        return dataMap;
     }
 
 

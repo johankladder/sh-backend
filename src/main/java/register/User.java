@@ -1,24 +1,22 @@
 package register;
 
-import helpers.*;
+import helpers.CreationException;
+import helpers.DataField;
+import helpers.ParamField;
+import helpers.ParamsHandler;
+import helpers.ShException;
 import helpers.database.Database;
 import helpers.register.Password;
 import org.apache.commons.lang3.StringUtils;
 import spark.Request;
-import utils.PasswordUtility;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import utils.PasswordUtility;
 
-/**
- * Created by johankladder on 12-3-17 (18:58)
- * <p>
- * // TODO: API tests
- */
 public class User extends ParamsHandler {
 
     @DataField(value = "sh_user")
@@ -101,7 +99,8 @@ public class User extends ParamsHandler {
     // TODO: Hardcoded SQL String
     private void checkDuplication(String email) throws SQLException, ShException {
            ResultSet result = (ResultSet)
-                   Database.execQuery("SELECT * FROM sh_user WHERE email='" + email + "'", Database.Result.RESULTSET);
+                   Database.execQuery("SELECT * FROM sh_user WHERE email='" + email + "'",
+                           Database.Result.RESULTSET);
 
            if(result.next()) {
                throw new ShException();
