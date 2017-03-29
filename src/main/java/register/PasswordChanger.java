@@ -2,12 +2,15 @@ package register;
 
 import helpers.*;
 
+import helpers.database.Database;
 import helpers.register.Password;
 import spark.Request;
 import utils.PasswordUtility;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -15,16 +18,16 @@ import java.util.HashMap;
  */
 public class PasswordChanger extends ParamsHandler {
 
-    @DataField(value = "users")
+    @DataField(value = "sh_user")
 
     @ParamField(required = true)
-    private static final String OLD_PASSWORD = "old_password";
+    public static final String OLD_PASSWORD = "old_password";
 
     @ParamField(required = true)
-    private static final String NEW_PASSWORD = "new_password";
+    public static final String NEW_PASSWORD = "new_password";
 
     @ParamField(required = true)
-    private static final String EMAIL = "email";
+    public static final String EMAIL = "email";
 
     private PasswordUtility passwordUtils = new PasswordUtility();
 
@@ -39,6 +42,18 @@ public class PasswordChanger extends ParamsHandler {
 
         byte[] obtainedSalt = new byte[0];
         byte[] obtainedPassword = new byte[0];
+        try {
+            // TODO: hardcoded
+            ResultSet set = (ResultSet) Database.execQuery("select password, salt from sh_user where email='"
+                    + paramsMap.get(EMAIL) + "'", Database.Result.RESULTSET);
+            if(set.next()) {
+                obtainedSalt = set.getBytes("salt");
+                obtainedPassword = set.getBytes("password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         try {
             boolean status = passwordUtils.authenticate((String) paramsMap.get(OLD_PASSWORD),
@@ -47,6 +62,8 @@ public class PasswordChanger extends ParamsHandler {
                 Password newPassword = generatePassword((String) paramsMap.get(NEW_PASSWORD));
                 String json = createJsonFromParamsField(createDataMap(newPassword, (String) paramsMap.get(EMAIL)));
                 System.out.println(json);
+            } else {
+                throw new ShException();
             }
 
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

@@ -21,6 +21,9 @@ public class DatabaseTester {
         // Point it to the helpers.unit.database
         flyway.setDataSource("jdbc:mysql://" + LOCATION + "/" + DATABASE + "?serverTimezone=" + TIMEZONE, USER, PASSWORD);
 
+        // Clear // TODO: Clears complete database
+        flyway.clean();
+
         // Start the migration
         flyway.migrate();
 

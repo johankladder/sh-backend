@@ -43,10 +43,11 @@ public class JSONParserTest {
                 "column3"
         };
 
+        // TODO: TEst integers etc.
         String[] values = new String[]{
-                "value1",
-                "value2",
-                "value3"
+                "'value1'",
+                "'value2'",
+                "'value3'"
         };
 
         String[] foundColumns = StringUtils.split(extractEntries(expectedInsertSQL)[0], ",");

@@ -69,8 +69,14 @@ public class JsonParser implements SQLParser {
 
         while (iterator.hasNext()) {
             Map.Entry<String, Object> next = iterator.next();
-            prefix += next.getKey() + ", ";
-            values += next.getValue() + ", ";
+            prefix +=  next.getKey() + ", ";
+
+            Object val = next.getValue();
+            if(val instanceof String) {
+                values += "'" + next.getValue() + "', ";
+            } else {
+                values += "" + next.getValue() + ", ";
+            }
         }
 
         // Clean up:

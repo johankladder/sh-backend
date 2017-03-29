@@ -1,6 +1,6 @@
 package functional.register;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import helpers.functional.ApiDatabaseTester;
 import java.io.IOException;
@@ -13,15 +13,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class RegisterApiTest extends ApiDatabaseTester {
 
-    @Before
-    public void fixture() throws IOException {
+    @BeforeClass
+    public static void fixture() throws IOException {
         HttpURLConnection connection = testUrl("/register", "POST", "email=j.kladder@st.hanze.nl&username=" +
                 "Johan Kladder&password=password&place=Groningen&country=Holland");
 
+        // Fixture is correctly defined!
         assertEquals(200, connection.getResponseCode());
-
-        // This entry is also inserted into the helpers.unit.database. No fixtures are therefore needed into the helpers.unit.database.
-        // Above entry can be used to ensure testing!
     }
 
     @Test
@@ -53,7 +51,7 @@ public class RegisterApiTest extends ApiDatabaseTester {
         HttpURLConnection connection = testUrl("/register", "POST", "email=j.kladder@st.hanze.nl&username=" +
                 "Johan Kladder&password=password&place=Groningen");
 
-//        assertEquals(422, connection.getResponseCode());
+        assertEquals(422, connection.getResponseCode());
     }
 
 }

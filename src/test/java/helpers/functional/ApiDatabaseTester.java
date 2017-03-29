@@ -18,7 +18,7 @@ public abstract class ApiDatabaseTester {
         DatabaseTester.setup();
     }
 
-    protected HttpURLConnection testUrl(String urlTest, String method, String requestBody) throws IOException {
+    protected static HttpURLConnection testUrl(String urlTest, String method, String requestBody) throws IOException {
         return apiTest.testUrl(urlTest, method, requestBody);
     }
 

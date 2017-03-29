@@ -1,6 +1,7 @@
 package register;
 
 import helpers.*;
+import helpers.database.Database;
 import helpers.database.parsers.JsonParser;
 import helpers.database.parsers.SQLParser;
 import helpers.register.Password;
@@ -10,6 +11,9 @@ import utils.PasswordUtility;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -38,9 +42,7 @@ public class User extends ParamsHandler {
 
     final static String SALT = "salt";
 
-    public JsonParser parser = new JsonParser();
-
-
+    public static JsonParser parser = new JsonParser();
 
 
     private PasswordUtility passwordUtils = new PasswordUtility();
@@ -56,12 +58,29 @@ public class User extends ParamsHandler {
             checkPassword((String) paramsMap.get(PASSWORD));
             checkEmail((String) paramsMap.get(EMAIL));
             Password hashedPassword = generatePassword((String) paramsMap.get(PASSWORD));
-            paramsMap.put(PASSWORD, hashedPassword.password);
-            paramsMap.put(SALT, hashedPassword.salt);
-            String json = createJsonFromParamsField(paramsMap);
 
-            String mysql = parser.parse(json, SQLParser.TYPE.INSERT);
-            System.out.println(mysql);
+        try {
+            Database.connect();
+            checkDuplication((String) paramsMap.get(EMAIL));
+            PreparedStatement preparedStatement = Database.getPreparedStatement(
+              "INSERT INTO sh_user (" + USERNAME + "," + EMAIL + "," + PLACE + ","
+              + COUNTRY + "," + PASSWORD + "," + SALT + ") VALUES (?,?,?,?,?,?)"
+            );
+
+            preparedStatement.setString(1, (String) paramsMap.get(USERNAME));
+            preparedStatement.setString(2, (String) paramsMap.get(EMAIL));
+            preparedStatement.setString(3, (String) paramsMap.get(PLACE));
+            preparedStatement.setString(4, (String) paramsMap.get(COUNTRY));
+            preparedStatement.setBytes(5, hashedPassword.password);
+            preparedStatement.setBytes(6, hashedPassword.salt);
+
+            preparedStatement.execute();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -81,6 +100,17 @@ public class User extends ParamsHandler {
         if (StringUtils.isEmpty(email)) {
             throw new CreationException();
         }
+    }
+
+    // TODO: Hardcoded SQL String
+    private void checkDuplication(String email) throws SQLException, ShException {
+           ResultSet result = (ResultSet)
+                   Database.execQuery("SELECT * FROM sh_user WHERE email='" + email + "'", Database.Result.RESULTSET);
+
+           if(result.next()) {
+               throw new ShException();
+           }
+
     }
 
     // TODO: Duplication in passwordchanger

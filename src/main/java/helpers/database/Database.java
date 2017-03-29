@@ -1,5 +1,6 @@
 package helpers.database;
 
+import helpers.ShException;
 import java.sql.*;
 
 /**
@@ -14,6 +15,11 @@ public class Database {
 
     private static Connection connection;
 
+    public enum Result {
+        RESULTSET,
+        NONE
+    }
+
     public static void connect() throws ClassNotFoundException, SQLException {
         // This will load the MySQL driver, each DB has its own driver
         Class.forName("com.mysql.jdbc.Driver");
@@ -23,11 +29,24 @@ public class Database {
                         + "user="+USER+"&password=" + PASSWORD);
     }
 
-    public static ResultSet execQuery(String query) throws SQLException {
-        Statement statement = connection.createStatement();
-
-        return statement.executeQuery(query);
+    public static PreparedStatement getPreparedStatement(String sql) throws SQLException {
+      return connection.prepareStatement(sql);
     }
+
+
+    public static Object execQuery(String query, Result result) throws SQLException, ShException {
+        switch (result) {
+            case NONE:
+                PreparedStatement statement = connection.prepareStatement(query);
+                return statement.execute(query);
+            case RESULTSET:
+                Statement statement1 = connection.createStatement();
+                return statement1.executeQuery(query);
+            default:
+                throw new ShException();
+        }
+    }
+
 
     public static void cleanUp() throws SQLException {
         connection.close();
