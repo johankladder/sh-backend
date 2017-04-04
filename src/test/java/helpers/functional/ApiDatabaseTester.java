@@ -9,7 +9,7 @@ public abstract class ApiDatabaseTester {
 
     private static ApiTest apiTest;
 
-    /** Setups the Api tester and the database tester
+    /** Setups the Api tester and the database tester.
      *  @throws ClassNotFoundException When DatabaseTester cannot be setup correctly
      *  @see ApiTest#setup()
      *  @see DatabaseTester#setup()

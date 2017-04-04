@@ -117,7 +117,7 @@ public class User extends ParamsHandler {
 
             return new Password(salt, pass);
 
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new CreationException();
         }
     }
