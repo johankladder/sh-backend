@@ -1,12 +1,12 @@
 package functional.register;
 
-import org.junit.BeforeClass;
 import helpers.functional.ApiDatabaseTester;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import static org.junit.Assert.assertEquals;
+
+import org.junit.BeforeClass;
 
 import org.junit.Test;
 

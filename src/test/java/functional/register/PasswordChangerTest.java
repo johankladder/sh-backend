@@ -1,18 +1,19 @@
 package functional.register;
 
 import helpers.functional.ApiDatabaseTester;
-import org.junit.BeforeClass;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PasswordChangerTest extends ApiDatabaseTester {
 
     /**
      * Creates the fixtures for the database. These fixtures can therefore be used in the database.
+     *
      * @throws IOException When URL is not valid.
      */
     @BeforeClass
