@@ -2,11 +2,11 @@ package helpers.functional;
 
 import functional.RestApi;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.junit.BeforeClass;
 import spark.Spark;
 
 public class ApiTest {
@@ -17,26 +17,24 @@ public class ApiTest {
 
     private static boolean initialized = false;
 
-    /**
-     * Setups the spark api and awaits initialisation. After it, it sets the initialized flag, so
-     * it wont init again.
-     * @throws InterruptedException
+    /** Setups the spark api and awaits initialisation. After it, it sets the initialized flag, so
+     *  it wont init again.
      */
     @BeforeClass
-    public static void setup() throws InterruptedException {
-        if(!initialized)
+    public static void setup() {
+        if(!initialized) {
             RestApi.main(null);
             Spark.awaitInitialization();
             initialized = true;
+        }
     }
 
-    /**
-     * Tests an url and returns the http connection.
-     * @param urlTest
-     * @param method
-     * @param requestBody
-     * @return
-     * @throws IOException
+    /** Tests an url and returns the http connection.
+     *  @param urlTest The URL that needs to be tested on the RestApi
+     *  @param method The method using for requesting (GET || POST)
+     *  @param requestBody The request body if needed (Can be NULL)
+     *  @return The HTTPURLConnection that belongs to this request.
+     *  @throws IOException When connection could not be created.
      */
     protected HttpURLConnection testUrl(String urlTest, String method, String requestBody)
             throws IOException {

@@ -56,7 +56,6 @@ public class PasswordChanger extends ParamsHandler {
         }
 
 
-        try {
             boolean status = passwordUtils.authenticate((String) paramsMap.get(OLD_PASSWORD),
                     obtainedPassword, obtainedSalt);
             if (status) {
@@ -65,10 +64,6 @@ public class PasswordChanger extends ParamsHandler {
             } else {
                 throw new ShException();
             }
-
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new ChangeException();
-        }
     }
 
 
@@ -76,11 +71,11 @@ public class PasswordChanger extends ParamsHandler {
     private Password generatePassword(String password) throws CreationException {
         try {
             byte[] salt = passwordUtils.generateSalt();
-            byte[] pass = passwordUtils.getEncryptedPassword(password, salt);
+            byte[] pass = passwordUtils.createPassword(password, salt);
 
             return new Password(salt, pass);
 
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new CreationException();
         }
     }

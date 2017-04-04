@@ -8,13 +8,13 @@ import helpers.ShException;
 import helpers.database.Database;
 import helpers.register.Password;
 import org.apache.commons.lang3.StringUtils;
-import spark.Request;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import spark.Request;
 import utils.PasswordUtility;
 
 public class User extends ParamsHandler {
@@ -113,11 +113,11 @@ public class User extends ParamsHandler {
 
         try {
             byte[] salt = passwordUtils.generateSalt();
-            byte[] pass = passwordUtils.getEncryptedPassword(password, salt);
+            byte[] pass = passwordUtils.createPassword(password, salt);
 
             return new Password(salt, pass);
 
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new CreationException();
         }
     }

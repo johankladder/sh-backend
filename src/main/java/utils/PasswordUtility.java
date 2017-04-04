@@ -11,19 +11,32 @@ import javax.crypto.spec.PBEKeySpec;
 
 public class PasswordUtility {
 
-    public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+    /** Authenticates a password that could be the same as the encrypted password. To authenticate
+     *  these to entries, the salt also needs to be given.
+     *
+     *  @param attemptedPassword String containing the possible password
+     *  @param encryptedPassword Encrypted byte array containing the 'real' password.
+     *  @param salt              The salt that was used to encrypt the 'real' password.
+     *  @return Status of authentication
+     */
+    public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) {
         // Encrypt the clear-text password using the same salt that was used to
         // encrypt the original password
-        byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
+        byte[] encryptedAttemptedPassword = createPassword(attemptedPassword, salt);
 
         // Authentication succeeds if encrypted password that the user entered
         // is equal to the stored hash
         return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
     }
 
-    public byte[] getEncryptedPassword(String password, byte[] salt)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+    /** Creates an encrypted password, stored in an byte array for safety reasons. This password is
+     *  created by the generated salt.
+     *
+     *  @param password An String containing an password.
+     *  @param salt     The salt that needs to be used to encrypt this password.
+     *  @return The encrypted password in an byte array.
+     */
+    public byte[] createPassword(String password, byte[] salt) {
         // PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST
         // specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
         String algorithm = "PBKDF2WithHmacSHA1";
@@ -38,11 +51,24 @@ public class PasswordUtility {
 
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
 
-        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
-
-        return secretKeyFactory.generateSecret(spec).getEncoded();
+        SecretKeyFactory secretKeyFactory;
+        try {
+            secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
+            return secretKeyFactory.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    /**
+     * Generates an random salt entry. The salt can therefore be used to create a safe password.
+     *
+     * @return Byte array containing the salt.
+     * @throws NoSuchAlgorithmException
+     */
     public byte[] generateSalt() throws NoSuchAlgorithmException {
         // VERY important to use SecureRandom instead of just Random
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
