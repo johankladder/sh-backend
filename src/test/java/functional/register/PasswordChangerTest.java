@@ -31,9 +31,18 @@ public class PasswordChangerTest extends ApiDatabaseTester {
 
     @Test
     public void testChangeCorrect() throws IOException {
+        // Test updating password:
         HttpURLConnection connection = testUrl("/change-password",
                 "POST", "email=j.kladder@st.hanze.nl&old_password="
                         + "password&new_password=password1");
+
+        assertEquals(200, connection.getResponseCode());
+
+        // Test if renewed password is added:
+        // (Request password renewal again with new generated password from previous attempt)
+        connection = testUrl("/change-password",
+                "POST", "email=j.kladder@st.hanze.nl&old_password="
+                        + "password1&new_password=password1");
 
         assertEquals(200, connection.getResponseCode());
     }
@@ -42,7 +51,7 @@ public class PasswordChangerTest extends ApiDatabaseTester {
     public void testChangeFault() throws IOException {
         HttpURLConnection connection = testUrl("/change-password", "POST",
                 "email=j.kladder@st.hanze.nl&old_password="
-                        + "fault&new_password=password1");
+                        + "&new_password=");
 
         assertEquals(403, connection.getResponseCode());
     }
