@@ -1,6 +1,5 @@
 package register;
 
-import helpers.ChangeException;
 import helpers.CreationException;
 import helpers.DataField;
 import helpers.ParamField;
@@ -55,20 +54,19 @@ public class PasswordChanger extends ParamsHandler {
             e.printStackTrace();
         }
 
-
+        boolean status = false;
         try {
-            boolean status = passwordUtils.authenticate((String) paramsMap.get(OLD_PASSWORD),
+            status = passwordUtils.authenticate((String) paramsMap.get(OLD_PASSWORD),
                     obtainedPassword, obtainedSalt);
-            if (status) {
-                // TODO: Store new password
-                Password newPassword = generatePassword((String) paramsMap.get(NEW_PASSWORD));
-            } else {
-                throw new ShException();
-            }
-
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new ChangeException();
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+            throw new CreationException();
         }
+        if (status) {
+                    // TODO: Store new password
+                    Password newPassword = generatePassword((String) paramsMap.get(NEW_PASSWORD));
+                } else {
+                    throw new ShException();
+            }
     }
 
 
@@ -76,7 +74,7 @@ public class PasswordChanger extends ParamsHandler {
     private Password generatePassword(String password) throws CreationException {
         try {
             byte[] salt = passwordUtils.generateSalt();
-            byte[] pass = passwordUtils.getEncryptedPassword(password, salt);
+            byte[] pass = passwordUtils.createPassword(password, salt);
 
             return new Password(salt, pass);
 

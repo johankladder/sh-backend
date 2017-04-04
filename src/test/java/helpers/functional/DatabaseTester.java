@@ -12,6 +12,9 @@ public class DatabaseTester {
     public static String PASSWORD = "";
     public static String TIMEZONE = "UTC";
 
+    /** Setups the database tester with default credentials for testing.
+     * @throws ClassNotFoundException When an connection could not be made with the database.
+     */
     public static void setup() throws ClassNotFoundException {
 
         Flyway flyway = new Flyway();
