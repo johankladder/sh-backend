@@ -11,7 +11,7 @@ public class FixturesHolder {
 
     private ArrayList<Fixture> fixturesList = null;
 
-    public FixturesHolder(LinkedHashMap fixturesMap) {
+    FixturesHolder(LinkedHashMap fixturesMap) {
         this.fixturesMap = fixturesMap;
         construct();
     }
