@@ -3,17 +3,14 @@ package unit.helpers;
 import helpers.fixtures.Fixture;
 import helpers.fixtures.FixtureLoader;
 import helpers.fixtures.FixturesHolder;
-import org.junit.Before;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-import org.junit.Test;
+import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
 
-/**
- * Created by johankladder on 27-3-17 (14:42)
- */
 public class FixtureLoaderTest {
 
     private static final String SINGLE_FIXTURE_TEST = "/unit/fixtures/single_fixture.yaml";

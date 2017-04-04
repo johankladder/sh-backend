@@ -76,7 +76,7 @@ public class PasswordChanger extends ParamsHandler {
     private Password generatePassword(String password) throws CreationException {
         try {
             byte[] salt = passwordUtils.generateSalt();
-            byte[] pass = passwordUtils.getEncryptedPassword(password, salt);
+            byte[] pass = passwordUtils.createPassword(password, salt);
 
             return new Password(salt, pass);
 
