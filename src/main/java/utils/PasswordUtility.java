@@ -55,11 +55,14 @@ public class PasswordUtility {
         // http://blog.crackpassword.com/2010/09/smartphone-forensics-cracking-blackberry-backup-passwords/
         int iterations = 20000;
 
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
-
-        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
-        return secretKeyFactory.generateSecret(spec).getEncoded();
-
+        if(password != null) {
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations,
+                    derivedKeyLength);
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
+            return secretKeyFactory.generateSecret(spec).getEncoded();
+        } else {
+            throw new InvalidKeySpecException();
+        }
     }
 
     /**

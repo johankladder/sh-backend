@@ -9,6 +9,7 @@ import helpers.database.Database;
 import helpers.register.Password;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class PasswordChanger extends ParamsHandler {
     @Override
     protected void publish(HashMap<String, Object> paramsMap) throws ShException {
 
+        // TODO Extreme mess, and exception handeling
         byte[] obtainedSalt = new byte[0];
         byte[] obtainedPassword = new byte[0];
         try {
@@ -64,9 +66,29 @@ public class PasswordChanger extends ParamsHandler {
         if (status) {
                     // TODO: Store new password
                     Password newPassword = generatePassword((String) paramsMap.get(NEW_PASSWORD));
-                } else {
+            try {
+                updatePassword((String) paramsMap.get(EMAIL), newPassword);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
                     throw new ShException();
             }
+    }
+
+    private boolean updatePassword(String email, Password newPassword) throws SQLException {
+        if(email != null) {
+            PreparedStatement preparedStatement = Database.getPreparedStatement(
+                    "UPDATE sh_user SET password = ?, salt = ? WHERE email = ?");
+
+            preparedStatement.setBytes(1, newPassword.password);
+            preparedStatement.setBytes(2, newPassword.salt);
+            preparedStatement.setString(3, email);
+
+            return preparedStatement.execute();
+        }
+
+        return false;
     }
 
 
