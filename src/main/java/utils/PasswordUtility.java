@@ -56,7 +56,8 @@ public class PasswordUtility {
         int iterations = 20000;
 
         if(password != null) {
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations,
+                    derivedKeyLength);
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
             return secretKeyFactory.generateSecret(spec).getEncoded();
         } else {
