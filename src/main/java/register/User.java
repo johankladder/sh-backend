@@ -108,16 +108,15 @@ public class User extends ParamsHandler {
 
     }
 
-    // TODO: Duplication in passwordchanger
+    // TODO: Duplication
     private Password generatePassword(String password) throws CreationException {
-
         try {
             byte[] salt = passwordUtils.generateSalt();
             byte[] pass = passwordUtils.createPassword(password, salt);
 
             return new Password(salt, pass);
 
-        } catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new CreationException();
         }
     }

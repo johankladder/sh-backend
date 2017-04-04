@@ -18,8 +18,11 @@ public class PasswordUtility {
      *  @param encryptedPassword Encrypted byte array containing the 'real' password.
      *  @param salt              The salt that was used to encrypt the 'real' password.
      *  @return Status of authentication
+     *  @throws InvalidKeySpecException When password cannot be generated.
+     *  @throws NoSuchAlgorithmException When password cannot be generated.
      */
-    public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) {
+    public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt)
+            throws InvalidKeySpecException, NoSuchAlgorithmException {
         // Encrypt the clear-text password using the same salt that was used to
         // encrypt the original password
         byte[] encryptedAttemptedPassword = createPassword(attemptedPassword, salt);
@@ -35,8 +38,11 @@ public class PasswordUtility {
      *  @param password An String containing an password.
      *  @param salt     The salt that needs to be used to encrypt this password.
      *  @return The encrypted password in an byte array.
+     *  @throws InvalidKeySpecException When password cannot be generated.
+     *  @throws NoSuchAlgorithmException When password cannot be generated.
      */
-    public byte[] createPassword(String password, byte[] salt) {
+    public byte[] createPassword(String password, byte[] salt) throws NoSuchAlgorithmException,
+            InvalidKeySpecException {
         // PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST
         // specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
         String algorithm = "PBKDF2WithHmacSHA1";
@@ -51,23 +57,16 @@ public class PasswordUtility {
 
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);
 
-        SecretKeyFactory secretKeyFactory;
-        try {
-            secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
-            return secretKeyFactory.generateSecret(spec).getEncoded();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        return null;
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithm);
+        return secretKeyFactory.generateSecret(spec).getEncoded();
+
     }
 
     /**
      * Generates an random salt entry. The salt can therefore be used to create a safe password.
      *
      * @return Byte array containing the salt.
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException When the salt cannot be created wit the default algorithm.
      */
     public byte[] generateSalt() throws NoSuchAlgorithmException {
         // VERY important to use SecureRandom instead of just Random
