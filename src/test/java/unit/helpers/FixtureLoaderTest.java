@@ -1,7 +1,7 @@
 package unit.helpers;
 
 import helpers.fixtures.Fixture;
-import helpers.fixtures.FixtureSaver;
+import helpers.fixtures.FixtureLoader;
 import helpers.fixtures.FixturesHolder;
 import org.junit.Before;
 import java.io.FileNotFoundException;
@@ -14,22 +14,22 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by johankladder on 27-3-17 (14:42)
  */
-public class FixtureSaverTest {
+public class FixtureLoaderTest {
 
     private static final String SINGLE_FIXTURE_TEST = "/unit/fixtures/single_fixture.yaml";
     private static final String MULTI_FIXTURE_TEST = "/unit/fixtures/multi_fixture.yaml";
 
-    private FixtureSaver saver;
+    private FixtureLoader saver;
 
     @Before
     public void setup() {
-        saver = new FixtureSaver();
+        saver = new FixtureLoader();
     }
 
     @Test
     public void testSingleFixture() throws FileNotFoundException {
 
-        FixturesHolder fixtureHolder = saver.createFixture(SINGLE_FIXTURE_TEST);
+        FixturesHolder fixtureHolder = saver.loadFixture(SINGLE_FIXTURE_TEST);
 
         assertEquals("table-name", fixtureHolder.getTableName());
 
@@ -50,7 +50,7 @@ public class FixtureSaverTest {
     @Test
     public void testMultipleFixtures() throws FileNotFoundException {
 
-        FixturesHolder fixtureHolder = saver.createFixture(MULTI_FIXTURE_TEST);
+        FixturesHolder fixtureHolder = saver.loadFixture(MULTI_FIXTURE_TEST);
 
         assertEquals("table-name", fixtureHolder.getTableName());
 

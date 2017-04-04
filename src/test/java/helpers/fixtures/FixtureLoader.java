@@ -7,9 +7,9 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import org.yaml.snakeyaml.Yaml;
 
-public class FixtureSaver {
+public class FixtureLoader {
 
-    public FixturesHolder createFixture(String path) throws FileNotFoundException {
+    public FixturesHolder loadFixture(String path) throws FileNotFoundException {
         LinkedHashMap fixturesMap = loadYaml(path);
         return new FixturesHolder(fixturesMap);
     }
