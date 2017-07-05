@@ -11,9 +11,9 @@ import java.sql.Statement;
 public class Database {
 
     public static String LOCATION = "localhost";
-    public static String DATABASE = "database";
-    public static String USER = "shbackend";
-    public static String PASSWORD = "sh-password";
+    public static String DATABASE = "shbackend";
+    public static String USER = "root";
+    public static String PASSWORD = "";
 
     private static Connection connection;
 
