@@ -28,6 +28,14 @@ public class RegisterApiTest extends ApiDatabaseTester {
     }
 
     @Test
+    public void testMissingPlace() throws IOException {
+        HttpURLConnection connection = testUrl("/register", "POST",
+                "email=email@mail.com&username=Johan Kladder&password=password");
+
+        assertEquals(200, connection.getResponseCode());
+    }
+
+    @Test
     public void testMissingEmail() throws IOException {
         HttpURLConnection connection = testUrl("/register", "POST",
                 "email=&username=Johan Kladder&password=password&place=Groningen");
